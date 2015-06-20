@@ -73,6 +73,7 @@
     <Compile Include="Azure.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Amazon.cs" />
     <Compile Include="File.cs" />
     <Compile Include="ITestScope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
