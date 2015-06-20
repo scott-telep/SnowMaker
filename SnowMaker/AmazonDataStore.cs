@@ -14,10 +14,12 @@ namespace SnowMaker
         const string SeedValue = "1";
 
         readonly string bucket;
+        private Amazon.RegionEndpoint endPoint;
 
-        public AmazonDataStore(string bucket)
+        public AmazonDataStore(Amazon.RegionEndpoint endPoint, string bucket)
         {
             this.bucket = bucket;
+            this.endPoint = endPoint;
         }
 
         public string GetData(string blockName)
@@ -39,11 +41,11 @@ namespace SnowMaker
             return true;
         }
 
-        static string ReadObjectData(string bucketName, string keyName)
+        private string ReadObjectData(string bucketName, string keyName)
         {
             string responseBody = "";
 
-            using (var client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
+            using (var client = new AmazonS3Client(endPoint))
             {
                 GetObjectRequest request = new GetObjectRequest
                 {
@@ -64,12 +66,12 @@ namespace SnowMaker
             return responseBody;
         }
 
-        static void WriteObjectData(string bucketName, string keyName, string data)
+        private void WriteObjectData(string bucketName, string keyName, string data)
         {
            
             // Create the data to write to the stream.
             UTF8Encoding uniEncoding = new UTF8Encoding();
-            byte[] firstString = uniEncoding.GetBytes(SeedValue);
+            byte[] firstString = uniEncoding.GetBytes(data);
             // 3. Upload data from a type of System.IO.Stream.
             TransferUtility fileTransferUtility = new
                     TransferUtility(new AmazonS3Client(Amazon.RegionEndpoint.USEast1));

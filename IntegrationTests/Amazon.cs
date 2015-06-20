@@ -2,11 +2,14 @@
 using System.IO;
 using NUnit.Framework;
 using SnowMaker;
+using Amazon.S3;
+using Amazon.S3.Model;
+using Amazon.S3.Transfer;
 
 namespace IntegrationTests.cs
 {
     [TestFixture]
-    public class Amazon : Scenarios<Amazon.TestScope>
+    public class AmazonTest : Scenarios<AmazonTest.TestScope>
     {
         protected override TestScope BuildTestScope()
         {
@@ -15,7 +18,7 @@ namespace IntegrationTests.cs
 
         protected override IOptimisticDataStore BuildStore(TestScope scope)
         {
-            return new AmazonDataStore(scope.Bucket);
+            return new AmazonDataStore(Amazon.RegionEndpoint.APSoutheast2, scope.Bucket);
         }
 
         public class TestScope : ITestScope
